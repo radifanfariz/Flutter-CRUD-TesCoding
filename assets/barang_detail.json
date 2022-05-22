@@ -1,0 +1,42 @@
+[
+  {
+    "barang_id": "0",
+    "nama_barang": "Kopi",
+    "jenis_barang": "Konsumsi"
+  },
+  {
+    "barang_id": "1",
+    "nama_barang": "Teh",
+    "jenis_barang": "Konsumsi"
+  },
+  {
+    "barang_id": "2",
+    "nama_barang": "Pasta Gigi",
+    "jenis_barang": "Pemebersih"
+  },
+  {
+    "barang_id": "3",
+    "nama_barang": "Sabun Mandi",
+    "jenis_barang": "Pembersih"
+  },
+  {
+    "barang_id": "4",
+    "nama_barang": "Sampo",
+    "jenis_barang": "Pembersih"
+  },
+  {
+    "barang_id": "B-34b",
+    "nama_barang": "Tahu",
+    "jenis_barang": "Konsumsi"
+  },
+  {
+    "barang_id": "B-3d9",
+    "nama_barang": "Madu",
+    "jenis_barang": "Konsumsi"
+  },
+  {
+    "barang_id": "B-9eb",
+    "nama_barang": "Tempe",
+    "jenis_barang": "Konsumsi"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "transaksi_id": "0",
+    "jumlah_terjual": 10,
+    "tanggal_transaksi": "2021-04-30T17:00:00.000Z"
+  },
+  {
+    "transaksi_id": "1",
+    "jumlah_terjual": 19,
+    "tanggal_transaksi": "2021-05-04T17:00:00.000Z"
+  },
+  {
+    "transaksi_id": "2",
+    "jumlah_terjual": 15,
+    "tanggal_transaksi": "2021-05-09T17:00:00.000Z"
+  },
+  {
+    "transaksi_id": "3",
+    "jumlah_terjual": 20,
+    "tanggal_transaksi": "2021-05-10T17:00:00.000Z"
+  },
+  {
+    "transaksi_id": "4",
+    "jumlah_terjual": 30,
+    "tanggal_transaksi": "2021-05-10T17:00:00.000Z"
+  },
+  {
+    "transaksi_id": "5",
+    "jumlah_terjual": 25,
+    "tanggal_transaksi": "2021-05-11T17:00:00.000Z"
+  },
+  {
+    "transaksi_id": "6",
+    "jumlah_terjual": 5,
+    "tanggal_transaksi": "2021-05-11T17:00:00.000Z"
+  },
+  {
+    "transaksi_id": "T-68b",
+    "jumlah_terjual": 567,
+    "tanggal_transaksi": "2021-07-16T17:00:00.000Z"
+  }
+]
