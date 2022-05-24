@@ -14,7 +14,7 @@ class TransaksiDialogView {
 
   static void dialogInsert(BuildContext context,HomeController controller){
     late int jumlahBarang = 0;
-    late String tanggalTransaksi = "";
+    late var tanggalTransaksi = "".obs;
     Get.defaultDialog(
         title: "Insert Transaksi",
         titleStyle: const TextStyle(fontSize: 25),
@@ -35,16 +35,29 @@ class TransaksiDialogView {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: TextFormField(
-                  onChanged: (value){
-                    tanggalTransaksi = value.toString();
-                  },
-                  style: Theme.of(context).textTheme.headline6,
-                  decoration: const InputDecoration(
-                      labelText: "Tanggal Transaksi",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      )),
+                child: Obx(
+                  () {
+                    return TextField(
+                      focusNode: AlwaysDisableFocusNode(),
+                      onTap: () {
+                        ConstantClass.showCupertinoSheet(
+                            context, initialDateTime: DateTime.now(),
+                            onDateTimeChanged: (dateTime) {
+                              tanggalTransaksi.value = ConstantClass.formatDateTime(dateTime.toIso8601String());
+                            },
+                            onClicked: (){
+                                Get.back();
+                            });
+                      },
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          label: Text(tanggalTransaksi.value,style: const TextStyle(fontWeight: FontWeight.bold),),
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                          )
+                      ),
+                    );
+                  }
                 ),
               ),
             ],
@@ -56,9 +69,9 @@ class TransaksiDialogView {
         confirmTextColor: Colors.black,
         cancelTextColor: Colors.black,
         onConfirm: () {
-          if(jumlahBarang != 0 && tanggalTransaksi != ""){
+          if(jumlahBarang != 0 && tanggalTransaksi.value != ""){
             // log("Test Text : ${namaBarang} ${jenisBarang}");
-            controller.insertTransaksi(Transaksi(jumlahTerjual: jumlahBarang,tanggalTransaksi: tanggalTransaksi));
+            controller.insertTransaksi(Transaksi(jumlahTerjual: jumlahBarang,tanggalTransaksi: tanggalTransaksi.value));
             ConstantClass.showToast("Item Inserted !",
                 color: Colors.green);
             Get.back();
@@ -73,7 +86,7 @@ class TransaksiDialogView {
 
   static void dialogUpdate(BuildContext context,HomeController controller,Transaksi transaksi){
     late int jumlahTransaksi = transaksi.jumlahTerjual!;
-    late String tanggalTransaksi = ConstantClass.formatDateTime(transaksi.tanggalTransaksi!);
+    late var tanggalTransaksi = ConstantClass.formatDateTime(transaksi.tanggalTransaksi!).obs;
 
     Get.defaultDialog(
         title: "Update Transaksi",
@@ -96,17 +109,29 @@ class TransaksiDialogView {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: TextFormField(
-                  onChanged: (value){
-                    tanggalTransaksi = value.toString();
-                  },
-                  style: Theme.of(context).textTheme.headline6,
-                  initialValue: tanggalTransaksi,
-                  decoration: const InputDecoration(
-                      labelText: "Tanggal Transaksi",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      )),
+                child: Obx(
+                        () {
+                      return TextField(
+                        focusNode: AlwaysDisableFocusNode(),
+                        onTap: () {
+                          ConstantClass.showCupertinoSheet(
+                              context, initialDateTime: DateTime.parse(tanggalTransaksi.value),
+                              onDateTimeChanged: (dateTime) {
+                                tanggalTransaksi.value = ConstantClass.formatDateTime(dateTime.toIso8601String());
+                              },
+                              onClicked: (){
+                                Get.back();
+                              });
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            label: Text(tanggalTransaksi.value,style: const TextStyle(fontWeight: FontWeight.bold),),
+                            border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10))
+                            )
+                        ),
+                      );
+                    }
                 ),
               ),
             ],
@@ -118,9 +143,9 @@ class TransaksiDialogView {
         confirmTextColor: Colors.black,
         cancelTextColor: Colors.black,
         onConfirm: () {
-          if(jumlahTransaksi != 0 && tanggalTransaksi != ""){
+          if(jumlahTransaksi != 0 && tanggalTransaksi.value != ""){
             // log("Test Text : ${namaBarang} ${jenisBarang}");
-            controller.updateTransaksi(transaksi.transaksiId!, Transaksi(jumlahTerjual: jumlahTransaksi,tanggalTransaksi: tanggalTransaksi));
+            controller.updateTransaksi(transaksi.transaksiId!, Transaksi(jumlahTerjual: jumlahTransaksi,tanggalTransaksi: tanggalTransaksi.value));
             ConstantClass.showToast("Item Updated !",
                 color: Colors.green);
             Get.back();
@@ -166,4 +191,9 @@ class TransaksiDialogView {
 //     ),
 //   );
 // }
+}
+
+class AlwaysDisableFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }

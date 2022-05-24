@@ -24,6 +24,7 @@ class HomeController extends GetxController {
   var barangDetail = <BarangDetail?>[].obs;
   var kolektif = <Kolektif?>[].obs;
 
+  ////////////value for dropddown menu table///////////////
   var currentMenuItemTable = "barang".obs;
 
   late BarangProvider _barangProvider;

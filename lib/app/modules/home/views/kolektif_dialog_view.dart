@@ -54,24 +54,36 @@ class KolektifDialogView {
   }
 
   static void dialogSearchByTanggal(BuildContext context,HomeController controller){
-    late String tanggalTransaksi = "";
+    late var tanggalTransaksi = "".obs;
     Get.defaultDialog(
         title: "Search By Tanggal",
         titleStyle: const TextStyle(fontSize: 25),
         content: Form(
           child: Column(
             children: [
-              TextFormField(
-                onChanged: (value){
-                  tanggalTransaksi = value.toString();
-                  // log("Test Text : ${namaBarang}");
-                },
-                style: Theme.of(context).textTheme.headline6,
-                decoration: const InputDecoration(
-                    labelText: "Tanggal Transaksi",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )),
+              Obx(
+                      () {
+                    return TextField(
+                      focusNode: AlwaysDisableFocusNode(),
+                      onTap: () {
+                        ConstantClass.showCupertinoSheet(
+                            context, initialDateTime: DateTime.now(),
+                            onDateTimeChanged: (dateTime) {
+                              tanggalTransaksi.value = ConstantClass.formatDateTime(dateTime.toIso8601String());
+                            },
+                            onClicked: (){
+                              Get.back();
+                            });
+                      },
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          label: Text(tanggalTransaksi.value,style: const TextStyle(fontWeight: FontWeight.bold),),
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                          )
+                      ),
+                    );
+                  }
               ),
             ],
           ),
@@ -82,9 +94,9 @@ class KolektifDialogView {
         confirmTextColor: Colors.black,
         cancelTextColor: Colors.black,
         onConfirm: () {
-          if(tanggalTransaksi != ""){
+          if(tanggalTransaksi.value != ""){
             // log("Test Text : ${namaBarang} ${jenisBarang}");
-            controller.task = controller.getKolektifByTanggal(tanggalTransaksi);
+            controller.task = controller.getKolektifByTanggal(tanggalTransaksi.value);
             ConstantClass.showToast("Searching... !",
                 color: Colors.green);
             Get.back();
@@ -98,8 +110,8 @@ class KolektifDialogView {
   }
 
   static void dialogSearchByTanggalAntara(BuildContext context,HomeController controller){
-    late String daritgl = "";
-    late String keTgl = "";
+    late var daritgl = "".obs;
+    late var keTgl = "".obs;
     late String sortResult = "DESC";
     Get.defaultDialog(
         title: "Search By Tanggal Antara",
@@ -107,32 +119,56 @@ class KolektifDialogView {
         content: Form(
           child: Column(
             children: [
-              TextFormField(
-                onChanged: (value){
-                  daritgl = value.toString();
-                  // log("Test Text : ${namaBarang}");
-                },
-                style: Theme.of(context).textTheme.headline6,
-                decoration: const InputDecoration(
-                    labelText: "Dari Tanggal Transaksi",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )),
+              Obx(
+                      () {
+                    return TextField(
+                      focusNode: AlwaysDisableFocusNode(),
+                      onTap: () {
+                        ConstantClass.showCupertinoSheet(
+                            context, initialDateTime: DateTime.now(),
+                            onDateTimeChanged: (dateTime) {
+                              daritgl.value = ConstantClass.formatDateTime(dateTime.toIso8601String());
+                            },
+                            onClicked: (){
+                              Get.back();
+                            });
+                      },
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          label: Text(daritgl.value,style: const TextStyle(fontWeight: FontWeight.bold),),
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                          )
+                      ),
+                    );
+                  }
               ),
               Padding(
                 padding: const EdgeInsets.only(top:8.0),
-                child: TextFormField(
-                  onChanged: (value){
-                    keTgl = value.toString();
-                    // log("Test Text : ${namaBarang}");
-                  },
-                  style: Theme.of(context).textTheme.headline6,
-                  decoration: const InputDecoration(
-                      labelText: "Ke Tanggal Transaksi",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      )),
-                ),
+                child: Obx(() {
+                  return TextField(
+                    focusNode: AlwaysDisableFocusNode(),
+                    onTap: () {
+                      ConstantClass.showCupertinoSheet(context,
+                          initialDateTime: DateTime.now(),
+                          onDateTimeChanged: (dateTime) {
+                        keTgl.value = ConstantClass.formatDateTime(
+                            dateTime.toIso8601String());
+                      }, onClicked: () {
+                        Get.back();
+                      });
+                    },
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        label: Text(
+                          keTgl.value,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        border: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10)))),
+                  );
+                }),
               ),
               Padding(
                 padding: const EdgeInsets.only(top:8.0),
@@ -162,9 +198,9 @@ class KolektifDialogView {
         confirmTextColor: Colors.black,
         cancelTextColor: Colors.black,
         onConfirm: () {
-          if(daritgl != "" && keTgl != ""){
+          if(daritgl.value != "" && keTgl.value != ""){
             // log("Test Text : ${namaBarang} ${jenisBarang}");
-            controller.task = controller.getKolektifByTanggalAntara(daritgl, keTgl, sortResult);
+            controller.task = controller.getKolektifByTanggalAntara(daritgl.value, keTgl.value, sortResult);
             ConstantClass.showToast("Searching... !",
                 color: Colors.green);
             Get.back();
@@ -188,3 +224,8 @@ const urutanMenuItem = <DropdownMenuItem>[
     child: Text("Paling Kecil"),
   ),
 ];
+
+class AlwaysDisableFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
